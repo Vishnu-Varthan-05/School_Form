@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+}
+body h1{
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* You can adjust the values as needed */
+    padding: 20px;
+}
+
+.row {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.col-25 {
+    float: left;
+    width: 20%;
+
+}
+
+.col-75 {
+    float: left;
+    width: 80%;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* input[type="button"] {
+    background-color: #2666fc;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+/* input[type="button"]:hover {
+    background-color: #45a049;
+} */
+
+/* .row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+} */
+
+.row_button button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}
+
+.row_button button:hover {
+    background-color: #45a049;
+}
+.clear button{
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.clear button:hover {
+    background-color: #e42323;
+}
+
+@media screen and (max-width: 600px) {
+    .col-25,
+    .col-75 {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

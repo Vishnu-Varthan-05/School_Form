@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Question Form</title>
+</head>
+<body>
+
+<h1>Add Questions</h1>
+<div class="container">
+    <form id="questionForm">
+        <div class="row">
+            <div class="col-25"><label for="subject">Subject:</label></div>
+            <div class="col-75"><select id="subject" name="subject" onchange="loadSubjectTypes()"></select></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="subject_type">Subject Type:</label></div>
+            <div class="col-75"><select id="subject_type" name="subject_type" onchange="updateSubjectId()"></select></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="title">Title:</label></div>
+            <div class="col-75"><input type="text" id="title" name="title" required></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="scenario">Scenario:</label></div>
+            <div class="col-75"><textarea id="scenario" name="scenario" rows="4" required></textarea></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="question">Question:</label></div>
+            <div class="col-75"><textarea id="question" name="question" rows="4" required></textarea></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="option_1">Option 1:</label></div>
+            <div class="col-75"><input type="text" id="option_1" name="option_1" required></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="option_2">Option 2:</label></div>
+            <div class="col-75"><input type="text" id="option_2" name="option_2" required></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="option_3">Option 3:</label></div>
+            <div class="col-75"><input type="text" id="option_3" name="option_3" required></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="option_4">Option 4:</label></div>
+            <div class="col-75"><input type="text" id="option_4" name="option_4" required></div>
+        </div>
+
+        <div class="row">
+            <div class="col-25"><label for="answer">Answer:</label></div>
+            <div class="col-75"><input type="text" id="answer" name="answer" required></div>
+        </div>
+
+        <input type="hidden" id="subject_id" name="subject_id">
+
+        <div class="row_button">
+            <button type="button" onclick="addQuestion()">Submit</button>
+            <button type="button" onclick="addNewQuestion()">Add New Question</button>
+            <button type="button" onclick="addNewScenario()">Add New Scenario</button>
+        </div><br/>
+        <div class="clear"> <button type="button" onclick="clearAll()">Clear All</button></div>
+    </form>
+</div>
+
+</body>
+</html>
+
+<script>
+    const apiPrefix = 'http://10.10.188.112:5000';
+
+    function loadSubjects() {
+        fetch(`${apiPrefix}/dropdown/subjects`)
+        .then(response => response.json())
+        .then(data => {
+            const subjectDropdown = document.getElementById('subject');
+            subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+            
+            data.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading subjects:', error);
+        });
+    }
+
+    function loadSubjectTypes() {
+        const selectedSubject = document.getElementById('subject').value;
+        if (selectedSubject) {
+            fetch(`${apiPrefix}/dropdown/subjects/${selectedSubject}`)
+            .then(response => response.json())
+            .then(data => {
+                const subjectTypeDropdown = document.getElementById('subject_type');
+                subjectTypeDropdown.innerHTML = '<option value="">Select Subject Type</option>';
+                
+                data.forEach(subjectType => {
+                    const option = document.createElement('option');
+                    option.value = subjectType.subject_id;
+                    option.textContent = subjectType.subject_type;
+                    subjectTypeDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+
+    function updateSubjectId() {
+        const selectedSubjectId = document.getElementById('subject_type').value;
+        document.getElementById('subject_id').value = selectedSubjectId;
+    }
+
+    function addQuestion() {
+        const formData = new FormData(document.getElementById('questionForm'));
+
+        fetch(`${apiPrefix}/addQuestions`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.success ? 'Question added successfully!' : 'Error adding question.');
+            // resetFormFields();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function addNewQuestion() {
+        resetFormFields();
+    }
+    function clearAll() {
+        document.getElementById('subject').value = '';
+        document.getElementById('subject_type').value = '';
+        document.getElementById('title').value = '';
+        document.getElementById('scenario').value = '';
+        resetFormFields();
+    }
+    
+   
+    function addNewScenario() {
+        document.getElementById('title').value = '';
+        document.getElementById('scenario').value = '';
+        resetFormFields();
+    }
+
+    function resetFormFields() {
+   
+        document.getElementById('question').value = '';
+        document.getElementById('option_1').value = '';
+        document.getElementById('option_2').value = '';
+        document.getElementById('option_3').value = '';
+        document.getElementById('option_4').value = '';
+        document.getElementById('answer').value = '';
+    }
+
+    loadSubjects();
+</script>
+
+</body>
+</html>
