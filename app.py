@@ -25,7 +25,7 @@ def get_scenario_id(cursor, subject_id, title, scenario):
     result = cursor.fetchone()
     return result['scenario_id'] if result else None
 
-@app.route('/generate_pdf', methods=['GET'])
+@app.route('/api/school/generate_pdf', methods=['GET'])
 def generate_pdf():
     try:
         subject_id = int(request.args.get('subject_id'))
@@ -99,7 +99,7 @@ def generate_pdf():
         current_app.logger.error(f"Unexpected Error: {str(e)} | Subject ID: {subject_id}")
         return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
 
-@app.route('/addQuestions', methods=['POST'])
+@app.route('/api/school/addQuestions', methods=['POST'])
 def add_question():
     try:
         data = request.form  
@@ -139,7 +139,7 @@ def add_question():
         app.logger.error(f"Unexpected Error: {str(e)} | Request Data: {data}")
         return jsonify({'error': f'Internal Server Error: {str(e)}'}), 500
 
-@app.route('/dropdown/<path:text>', methods=['GET'])
+@app.route('/api/school/dropdown/<path:text>', methods=['GET'])
 def get_dropdown_options(text):
     try:
         connection = get_db_connection()
