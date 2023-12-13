@@ -76,10 +76,10 @@
 </html>
 
 <script>
-    const apiPrefix = 'http://10.10.188.112:5000';
+    const apiPrefix = 'http://10.10.181.37:5000';
 
     function loadSubjects() {
-        fetch(`${apiPrefix}/dropdown/subjects`)
+        fetch(`${apiPrefix}/api/school/dropdown/subjects`)
         .then(response => response.json())
         .then(data => {
             const subjectDropdown = document.getElementById('subject');
@@ -100,7 +100,7 @@
     function loadSubjectTypes() {
         const selectedSubject = document.getElementById('subject').value;
         if (selectedSubject) {
-            fetch(`${apiPrefix}/dropdown/subjects/${selectedSubject}`)
+            fetch(`${apiPrefix}/api/school/dropdown/subjects/${selectedSubject}`)
             .then(response => response.json())
             .then(data => {
                 const subjectTypeDropdown = document.getElementById('subject_type');
@@ -127,7 +127,7 @@
     function addQuestion() {
         const formData = new FormData(document.getElementById('questionForm'));
 
-        fetch(`${apiPrefix}/addQuestions`, {
+        fetch(`${apiPrefix}/api/school/addQuestions`, {
             method: 'POST',
             body: formData
         })
